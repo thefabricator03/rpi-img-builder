@@ -1,3 +1,43 @@
+## Debian LinuxCNC with EtherCAT & minimal XFCE
+
+---
+
+#### Install host dependencies
+```sh
+./install
+```
+
+#### Edit userdata.txt
+```sh
+NAME="cnc"
+USERNAME="cnc"
+PASSWORD="cnc"
+```
+
+#### Build 5.15.36-rt41 kernel
+```sh
+make commit board=bcm2711	# linux source pulled from commmit
+paste                           ac27843a367ea253659847aeb491137bf3e9216a
+```
+
+The builder will auto patch the kernel with "patches/userpatches/patch-5.15.36-rt41.patch"
+
+#### Build rootfs
+
+See `rpi-img-builderiles/userscripts/uscripts` for addiitonal rootfs stage packages
+
+```sh
+make rootfs board=bcm2711
+```
+
+#### Build image
+```sh
+make image board=bcm2711
+```
+
+---
+
+
 <img src="https://socialify.git.ci/pyavitz/rpi-img-builder/image?description=1&font=KoHo&forks=1&issues=1&logo=https%3A%2F%2Fupload.wikimedia.org%2Fwikipedia%2Fde%2Fthumb%2Fc%2Fcb%2FRaspberry_Pi_Logo.svg%2F475px-Raspberry_Pi_Logo.svg.png&owner=1&pattern=Charlie%20Brown&stargazers=1&theme=Dark" alt="rpi-img-builder" width="640" height="320" />
 
 ## The boards and distributions that are currently supported

@@ -18,9 +18,9 @@ fi
 }
 # do not edit above this line
 
-EXT4="3000MB"
-BTRFS="2650MB"
-XFS="2650MB"
+EXT4="6114MB"
+BTRFS="6114MB"
+XFS="6114MB"
 
 # packages
 PKG1="tzdata keyboard-configuration sudo man-db dbus initramfs-tools \

@@ -1,0 +1,67 @@
+#!/bin/bash
+
+# Ethercat installation from repositories
+# https://forum.linuxcnc.org/ethercat/45336-ethercat-installation-from-repositories-how-to-step-by-step
+
+run_function2 (){
+
+  # XFCE
+  echo ""
+  echo "Installing Minimal XFCE..."
+  sleep 1s
+  
+  apt install -y \
+    libxfce4ui-utils \
+    thunar \
+    xfce4-appfinder \
+    xfce4-panel \
+    network-manager-gnome \
+    xfce4-whiskermenu-plugin \
+    xfce4-session \
+    xfce4-settings \
+    xfce4-terminal \
+    xfconf \
+    xfdesktop4 \
+    xfwm4 \
+    adwaita-qt \
+    qt5ct \
+    lightdm
+    
+
+  # LinuxCNC
+  echo ""
+  echo "Installing LinuxCNC..."
+  sleep 1s
+  apt install -y linuxcnc-uspace linuxcnc-uspace-dev mesaflash
+
+  # EtherCAT
+  echo ""
+  echo "Installing EtherCAT..."
+  sleep 1s
+
+  KEYRING=/usr/share/keyrings/ethercat.gpg
+  
+  curl -fsSL https://download.opensuse.org/repositories/home:/bone11111:/branches:/science:/EtherLab/Debian_10/Release.key | gpg --dearmor | sudo tee "$KEYRING" >/dev/null
+  
+  echo "deb [signed-by=/usr/share/keyrings/ethercat.gpg] https://download.opensuse.org/repositories/home:/bone11111:/branches:/science:/EtherLab/Debian_10/ ./" >> /etc/apt/sources.list 
+  
+  apt update
+  
+  apt install -y expat libexpat1 libexpat1-dev
+  apt install -y --allow-unauthenticated ethercat-dkms libethercat libethercat-dev ethercat-master
+  
+  # LinuxCNC-EtherCAT
+  echo ""
+  echo "Installing LinuxCNC-EtherCAT..."
+  sleep 1s
+  
+  git clone https://github.com/sittner/linuxcnc-ethercat.git
+  mv -f /root/userscripts/realtime.mk linuxcnc-ethercat/src/realtime.mk
+  cd linuxcnc-ethercat
+  make clean
+  make 
+  make install
+  
+  echo 'KERNEL=="EtherCAT[0-9]", MODE="0777"' > /etc/udev/rules.d/99-ethercat.rules
+ 
+}

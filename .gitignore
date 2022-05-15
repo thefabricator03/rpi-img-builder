@@ -1,0 +1,10 @@
+source/
+board.txt
+gcc.txt
+output/
+sysroot/
+p1/
+p2/
+img/
+debian-*
+part-uuid.txt
